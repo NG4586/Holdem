@@ -23,11 +23,18 @@ let playerNames: [String] = [NSUserName(), "CPU1", "CPU2", "CPU3",
 
 func nextPlayer(_ position: Int) -> Int
 {
-    var nextIndex: Int = (position + 1) % (currentGame.players).count;
-    while ((currentGame.players)[nextIndex].folded
-           || (currentGame.players)[nextIndex].chips == 0)
+    var nextIndex: Int = position + 1;
+    if (nextIndex >= (currentGame.players).count)
     {
-        nextIndex = (nextIndex + 1) % (currentGame.players).count;
+        nextIndex -= (currentGame.players).count;
+    }
+    while ((currentGame.players)[nextIndex].folded || (currentGame.players)[nextIndex].chips == 0)
+    {
+        nextIndex += 1;
+        if (nextIndex >= (currentGame.players).count)
+        {
+            nextIndex -= (currentGame.players).count;
+        }
     }
     return nextIndex;
 }
@@ -39,8 +46,7 @@ func prevPlayer(_ position: Int) -> Int
     {
         prevIndex += (currentGame.players).count;
     }
-    while ((currentGame.players)[prevIndex].folded
-           || (currentGame.players)[prevIndex].chips == 0)
+    while ((currentGame.players)[prevIndex].folded || (currentGame.players)[prevIndex].chips == 0)
     {
         prevIndex -= 1;
         if (prevIndex < 0)

@@ -113,13 +113,43 @@ func bettingRound() -> Bool
     return currentGame.inPlay == 1;
 }
 
+func award() -> Void
+{
+    var won: [Int] = [];
+    var pot: Int = 0;
+    var playerAt: Int = 0;
+    while (playerAt < (currentGame.players).count)
+    {
+        pot += (currentGame.players[playerAt]).posted;
+        (currentGame.players[playerAt]).posted = 0;
+        if (!(currentGame.players[playerAt].folded))
+        {
+            won.append(playerAt);
+        }
+    }
+    for winner in won
+    {
+        (currentGame.players[winner]).chips += (pot / won.count);
+    }
+    var tiebreaker: Int = dealer;
+    while (pot > 0)
+    {
+        if (won.contains(tiebreaker))
+        {
+            (currentGame.players[tiebreaker]).chips += 1;
+            pot -= 1;
+        }
+        tiebreaker = nextPlayer(tiebreaker);
+    }
+}
+
 func gameRound() -> Void
 {
     var concession: Bool;
     concession = bettingRound();
     if (concession)
     {
-        // award function
+        award();
         return;
     }
     (currentGame.board).revealed[0] = true;
@@ -129,7 +159,7 @@ func gameRound() -> Void
     bettingRound();
     if (concession)
     {
-        // award function
+        award();
         return;
     }
     (currentGame.board).revealed[3] = true;
@@ -137,7 +167,7 @@ func gameRound() -> Void
     bettingRound();
     if (concession)
     {
-        // award function
+        award();
         return;
     }
     (currentGame.board).revealed[4] = true;
@@ -145,9 +175,22 @@ func gameRound() -> Void
     bettingRound();
     if (concession)
     {
-        // award function
+        award();
         return;
     }
-    // showdown function
-    // award function
+    for player in currentGame.players
+    {
+        (player.hand[0]).revealed = true;
+        (player.hand[1]).revealed = true;
+    }
+    let handed: [Int] = bestHand(handidates());
+    var playerAt: Int = 0;
+    while (playerAt < (currentGame.players).count)
+    {
+        if (!handed.contains(playerAt))
+        {
+            currentGame.players[playerAt].folded = true;
+        }
+    }
+    award();
 }

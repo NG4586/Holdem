@@ -15,6 +15,34 @@ let handVals: Dictionary<String, Int> =
     "High Card": 9
 ];
 
+let masks: [[Int]] = [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
+                              [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
+                                      [2, 3], [2, 4], [2, 5], [2, 6],
+                                              [3, 4], [3, 5], [3, 6],
+                                                      [4, 5], [4, 6],
+                                                              [5, 6]];
+
+struct Card
+{
+    let rank: Int;
+    let suit: Int;
+    var revealed: Bool;
+    init(_ cardID: Int, _ face: Bool)
+    {
+        rank = cardID / 10;
+        suit = cardID % 10;
+        revealed = face;
+    }
+}
+
+var cardSet: [Int] =
+[
+    20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140,
+    21, 31, 41, 51, 61, 71, 81, 91, 101, 111, 121, 131, 141,
+    22, 32, 42, 52, 62, 72, 82, 92, 102, 112, 122, 132, 142,
+    23, 33, 43, 53, 63, 73, 83, 93, 103, 113, 123, 133, 143
+];
+
 func flush(_ cards: [Card])
 {
     return cards[0].suit == cards[1].suit
@@ -185,6 +213,54 @@ func evalHand(_ leftHand: Hand, _ rightHand: Hand) -> Int
 func betterHand(_ leftHand: Hand, _ rightHand: Hand) -> Bool
 {
     return (evalHand(leftHand, rightHand) <= 0);
+}
+
+func handidates() -> [Hand]
+{
+    var playerAt: Int = 0;
+    var nextHand: [Card];
+    var allHands: [Hand] = [];
+    while (playerAt < (currentGame.players).count)
+    {
+        if (!(currentGame.players[playerAt].folded))
+        {
+            for mask in masks
+            {
+                nextHand = [];
+                if (mask[0] != 0)
+                {
+                    nextHand.append(currentGame.players[playerAt].hand[0]);
+                }
+                if (mask[0] != 1 && mask[1] != 1)
+                {
+                    nextHand.append(currentGame.players[playerAt].hand[1]);
+                }
+                if (mask[0] != 2 && mask[1] != 2)
+                {
+                    nextHand.append(currentGame.board[0]);
+                }
+                if (mask[0] != 3 && mask[1] != 3)
+                {
+                    nextHand.append(currentGame.board[1]);
+                }
+                if (mask[1] != 4 && mask[0] != 4)
+                {
+                    nextHand.append(currentGame.board[2]);
+                }
+                if (mask[1] != 5 && mask[0] != 5)
+                {
+                    nextHand.append(currentGame.board[3]);
+                }
+                if (mask[1] != 6)
+                {
+                    nextHand.append(currentGame.board[4]);
+                }
+                allHands.append(Hand(playerAt, nextHand));
+            }
+        }
+        playerAt += 1;
+    }
+    return allHands;
 }
 
 func bestHand(_ hands: [Hand]) -> [Int]
