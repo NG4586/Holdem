@@ -1,109 +1,153 @@
 // Nathaniel Graves
 import Foundation
 
-var buyIn: Int;
-
-var minBet: Int;
-
-var posted: Dictionary<Int, Int>;
-
-func fold(_ player: Int) -> Bool
+struct GameInfo
 {
-    (posted[numPlayers]!) += (posted[player]!);
-    posted.removeValue(forKey: player);
-    return false;
+    var players: [Player];
+    var inPlay: Int;
+    var roundLimit: Int;
+    var currentRound: Int;
+    var currentPlayer: Int;
+    var reviewPlayer: Int;
+    var timesRaised: Int;
+    var smallBlind: Int;
+    var bigBlind: Int;
+    var dealer: Int;
+    var board: [Card];
 }
 
-func bet(_ player: Int) -> Bool
+var currentGame: GameInfo;
+
+func newRound() -> Void
 {
-    var deficit: Int = currentBet - (posted[player]!);
-    if (players[player].chips >= deficit)
+    currentGame.inPlay = 0;
+    for player in currentGame.players
     {
-        (posted[player]!) += deficit;
-        players[player].chips -= deficit;
+        if (player.chips > 0)
+        {
+            currentGame.inPlay += 1;
+            player.folded = false;
+        }
+    }
+    currentGame.dealer = nextPlayer(currentGame.dealer);
+    cardSet.shuffle();
+    var dealTo: Int = nextPlayer(dealer);
+    var nextCard: Int = 0;
+    while (players[dealer].hand.count < 2)
+    {
+        players[dealTo].hand.append(Card(cardSet[nextCard], (dealTo == 0)));
+        dealTo = nextPlayer(dealTo);
+        nextCard += 1;
+    }
+    currentGame.board = [Card(cardSet[nextCard + 1], false),
+                         Card(cardSet[nextCard + 2], false),
+                         Card(cardSet[nextCard + 3], false),
+                         Card(cardSet[nextCard + 5], false),
+                         Card(cardSet[nextCard + 7], false)];
+    if (currentGame.inPlay > 2)
+    {
+        (currentGame.players[nextPlayer(currentGame.dealer)]).posted += smallBet;
+        (currentGame.players[nextPlayer(nextPlayer(currentGame.dealer))]).posted += bigBet;
+        currentGame.currentPlayer = nextPlayer(nextPlayer(nextPlayer(currentGame.dealer)));
     }
     else
     {
-        (posted[player]!) += players[player].chips;
-        players[player].chips = 0;
+        (currentGame.players[currentGame.dealer]).posted += smallBet;
+        (currentGame.players[nextPlayer(currentGame.dealer)]).posted += bigBet;
+        currentGame.currentPlayer = dealer;
     }
+}
+
+func fold(_ player: Player) -> Bool
+{
+    player.folded = true;
+    inPlay -= 1;
+    return false;
+}
+
+func call(_ player: Player) -> Bool
+{
+    if ((currentGame.board)[3].revealed)
+    {
+        postBet(player, 2 * timesRaised * bigBlind);
+    }
+    else
+    {
+        postBet(player, timesRaised * bigBlind);
+    }
+    return false;
+}
+
+func raise(_ player: Player) -> Bool
+{
+    if ((currentGame.board)[3].revealed)
+    {
+        postBet(player, 2 * timesRaised * bigBlind);
+    }
+    else
+    {
+        postBet(player, timesRaised * bigBlind);
+    }
+    currentGame.timesRaised += 1;
     return true;
 }
 
-func decision(_ player: Int, _ raises: Int) -> (Int -> Bool)
+func decision(_ player: Player) -> Bool
 {
-    if (player == 0)
-    {
-        //
-    }
-    return call;
+    return call(player);
 }
 
-func bettingRound(_ matchingTo: Int, _ maxRaise: Int) -> Void
+func bettingRound() -> Bool
 {
-    var currentPlayer: Int = matchingTo;
-    var raised: Bool = true;
-    while (raised)
+    currentGame.reviewPlayer = prevIndex(currentGame.currentPlayer);
+    currentGame.timesRaised = 1;
+    while (currentGame.currentPlayer != currentGame.reviewPlayer)
     {
-        raised = false;
-        currentPlayer = nextPlayer(matchingTo);
-        while (currentPlayer != matchingTo)
+        raised = decision(currentGame.currentPlayer);
+        if (raised)
         {
-            //
+            currentGame.reviewPlayer = currentGame.currentPlayer;
         }
+        currentGame.currentPlayer = nextPlayer(currentGame.currentPlayer);
     }
+    return currentGame.inPlay == 1;
 }
 
-var currentHand: Int
+func gameRound() -> Void
 {
-    didSet
+    var concession: Bool;
+    concession = bettingRound();
+    if (concession)
     {
-        cardSet.shuffle();
-        var dealTo: Int = nextPlayer(dealer);
-        var nextCard: Int = 0;
-        while (players[dealer].hand.count < 2)
-        {
-            players[dealTo].hand.append(Card(cardSet[nextCard], (dealTo == 0)));
-            dealTo = nextPlayer(dealTo);
-        }
-        if (posted.count > 2)
-        {
-            posted[nextPlayer(dealer)] = minBet / 2;
-            posted[nextPlayer(nextPlayer(dealer))] = minBet;
-        }
-        else
-        {
-            posted[dealer] = minBet / 2;
-            posted[nextPlayer(dealer)] = minBet;
-        }
-        for n: Int in (0 ..< numPlayers)
-        {
-            if (players[n].chips > 0 && posted[n] != nil)
-            {
-                posted[n] = 0;
-            }
-        }
-        posted[numPlayers] = 0;
-        // here
+        // award function
+        return;
     }
-}
-
-var initiated: Bool
-{
-    didSet
+    (currentGame.board).revealed[0] = true;
+    (currentGame.board).revealed[1] = true;
+    (currentGame.board).revealed[2] = true;
+    currentGame.currentPlayer = nextPlayer(currentGame.dealer);
+    bettingRound();
+    if (concession)
     {
-        if (initiated == true)
-        {
-            var nextPlayer: Int = 0;
-            var currentPlayers: [Player] = [];
-            while (nextPlayer < numPlayers)
-            {
-                currentPlayers.append(Player(playerNames[nextPlayer], buyIn));
-                nextPlayer += 1;
-            }
-            players = currentPlayers;
-            dealer = Int.random(in: 0 ..< numPlayers);
-            currentHand = 0;
-        }
+        // award function
+        return;
     }
+    (currentGame.board).revealed[3] = true;
+    currentGame.currentPlayer = nextPlayer(currentGame.dealer);
+    bettingRound();
+    if (concession)
+    {
+        // award function
+        return;
+    }
+    (currentGame.board).revealed[4] = true;
+    currentGame.currentPlayer = nextPlayer(currentGame.dealer);
+    bettingRound();
+    if (concession)
+    {
+        // award function
+        return;
+    }
+    // showdown function
+    // award function
 }
