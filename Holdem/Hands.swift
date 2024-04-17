@@ -43,6 +43,15 @@ var cardSet: [Int] =
     23, 33, 43, 53, 63, 73, 83, 93, 103, 113, 123, 133, 143
 ];
 
+func displayCard(_ card: Card) -> String
+{
+    if (card.revealed)
+    {
+        return "images/card_" + String(card.rank) + String(card.suit) + ".png";
+    }
+    return "images/card_0.png";
+}
+
 func flush(_ cards: [Card])
 {
     return cards[0].suit == cards[1].suit
