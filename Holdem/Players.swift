@@ -1,16 +1,16 @@
 // Nathaniel Graves
 import Foundation
 
-struct Player
+struct Player: Identifiable
 {
-    let name: String;
+    let id: String;
     var hand: [Card];
     var chips: Int;
     var posted: Int;
     var folded: Bool;
     init(_ playerName: String, _ startingChips: Int)
     {
-        name = playerName;
+        id = playerName;
         hand = [];
         chips = startingChips;
         posted = 0;
@@ -54,20 +54,20 @@ func prevPlayer(_ position: Int) -> Int
             prevIndex += (currentGame.players).count;
         }
     }
-    return nextIndex;
+    return prevIndex;
 }
 
-func postBet(_ player: Player, _ amount: Int) -> Void
+func postBet(_ player: Int, _ amount: Int) -> Void
 {
-    var deficit: Int = amount - player.posted;
-    if (player.chips >= deficit)
+    let deficit: Int = amount - (currentGame.players[player]).posted;
+    if ((currentGame.players[player]).chips >= deficit)
     {
-        player.posted += deficit;
-        player.chips -= deficit;
+        (currentGame.players[player]).posted += deficit;
+        (currentGame.players[player]).chips -= deficit;
     }
     else
     {
-        player.posted = player.chips;
-        player.chips = 0;
+        (currentGame.players[player]).posted = (currentGame.players[player]).chips;
+        (currentGame.players[player]).chips = 0;
     }
 }

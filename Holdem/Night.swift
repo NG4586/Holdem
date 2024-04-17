@@ -1,7 +1,7 @@
 // Nathaniel Graves
 import SwiftUI
 
-@ObservedObject var controller: Engagement = Engagement.shared;
+var controller: Engagement = Engagement.shared;
 
 func newGame() -> Void
 {

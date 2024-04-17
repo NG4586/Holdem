@@ -14,45 +14,59 @@ struct GameInfo
     var bigBlind: Int;
     var dealer: Int;
     var board: [Card];
+    init()
+    {
+        players = [];
+        inPlay = 0;
+        roundLimit = 0;
+        currentRound = 0;
+        currentPlayer = 0;
+        reviewPlayer = 0;
+        timesRaised = 0;
+        smallBlind = 0;
+        bigBlind = 0;
+        dealer = 0;
+        board = [];
+    }
 }
 
-var currentGame: GameInfo;
+var currentGame: GameInfo = GameInfo();
 
-func fold(_ player: Player) -> Bool
+func fold(_ player: Int) -> Bool
 {
-    player.folded = true;
+    (currentGame.players[player]).folded = true;
     currentGame.inPlay -= 1;
     return false;
 }
 
-func call(_ player: Player) -> Bool
+func call(_ player: Int) -> Bool
 {
     if ((currentGame.board)[3].revealed)
     {
-        postBet(player, 2 * timesRaised * currentGame.bigBlind);
+        postBet(player, 2 * currentGame.timesRaised * currentGame.bigBlind);
     }
     else
     {
-        postBet(player, timesRaised * currentGame.bigBlind);
+        postBet(player, currentGame.timesRaised * currentGame.bigBlind);
     }
     return false;
 }
 
-func raise(_ player: Player) -> Bool
+func raise(_ player: Int) -> Bool
 {
     if ((currentGame.board)[3].revealed)
     {
-        postBet(player, 2 * timesRaised * currentGame.bigBlind);
+        postBet(player, 2 * currentGame.timesRaised * currentGame.bigBlind);
     }
     else
     {
-        postBet(player, timesRaised * currentGame.bigBlind);
+        postBet(player, currentGame.timesRaised * currentGame.bigBlind);
     }
     currentGame.timesRaised += 1;
     return true;
 }
 
-func decision(_ player: Player) -> Bool
+func decision(_ player: Int) -> Bool
 {
     return call(player);
 }
@@ -70,12 +84,13 @@ func award() -> Void
         {
             won.append(playerAt);
         }
+        playerAt += 1;
     }
     for winner in won
     {
         (currentGame.players[winner]).chips += (pot / won.count);
     }
-    var tiebreaker: Int = dealer;
+    var tiebreaker: Int = currentGame.dealer;
     while (pot > 0)
     {
         if (won.contains(tiebreaker))
@@ -89,7 +104,8 @@ func award() -> Void
 
 func bettingRound() -> Bool
 {
-    currentGame.reviewPlayer = prevIndex(currentGame.currentPlayer);
+    currentGame.reviewPlayer = prevPlayer(currentGame.currentPlayer);
+    var raised: Bool = true;
     currentGame.timesRaised = 1;
     while (currentGame.currentPlayer != currentGame.reviewPlayer)
     {
@@ -106,35 +122,39 @@ func bettingRound() -> Bool
 func gameRound() -> Void
 {
     currentGame.inPlay = 0;
-    for player in currentGame.players
+    var playerAt: Int = 0;
+    while (playerAt < (currentGame.players).count)
     {
-        if (player.chips > 0)
+        if ((currentGame.players)[playerAt].chips > 0)
         {
             currentGame.inPlay += 1;
-            player.folded = false;
+            (currentGame.players)[playerAt].folded = false;
         }
+        playerAt += 1;
     }
     currentGame.dealer = nextPlayer(currentGame.dealer);
     cardSet.shuffle();
-    var dealTo: Int = nextPlayer(dealer);
+    var dealTo: Int = nextPlayer(currentGame.dealer);
     var nextCard: Int = 0;
-    while (players[dealer].hand.count < 2)
+    while ((currentGame.players[currentGame.dealer]).hand.count < 2)
     {
-        players[dealTo].hand.append(Card(cardSet[nextCard], (dealTo == 0)));
+        (currentGame.players)[dealTo].hand.append(Card(cardSet[nextCard], (dealTo == 0)));
         dealTo = nextPlayer(dealTo);
         nextCard += 1;
     }
     if (currentGame.inPlay > 2)
     {
-        (currentGame.players[nextPlayer(currentGame.dealer)]).posted += smallBet;
-        (currentGame.players[nextPlayer(nextPlayer(currentGame.dealer))]).posted += bigBet;
+        (currentGame.players[nextPlayer(currentGame.dealer)]).posted +=
+            currentGame.smallBlind;
+        (currentGame.players[nextPlayer(nextPlayer(currentGame.dealer))]).posted +=
+            currentGame.bigBlind;
         currentGame.currentPlayer = nextPlayer(nextPlayer(nextPlayer(currentGame.dealer)));
     }
     else
     {
-        (currentGame.players[currentGame.dealer]).posted += smallBet;
-        (currentGame.players[nextPlayer(currentGame.dealer)]).posted += bigBet;
-        currentGame.currentPlayer = dealer;
+        (currentGame.players[currentGame.dealer]).posted += currentGame.smallBlind;
+        (currentGame.players[nextPlayer(currentGame.dealer)]).posted += currentGame.bigBlind;
+        currentGame.currentPlayer = currentGame.dealer;
     }
     currentGame.board = [Card(cardSet[nextCard + 1], false),
                          Card(cardSet[nextCard + 2], false),
@@ -148,39 +168,41 @@ func gameRound() -> Void
         award();
         return;
     }
-    (currentGame.board).revealed[0] = true;
-    (currentGame.board).revealed[1] = true;
-    (currentGame.board).revealed[2] = true;
+    (currentGame.board)[0].revealed = true;
+    (currentGame.board)[1].revealed = true;
+    (currentGame.board)[2].revealed = true;
     currentGame.currentPlayer = nextPlayer(currentGame.dealer);
-    bettingRound();
+    concession = bettingRound();
     if (concession)
     {
         award();
         return;
     }
-    (currentGame.board).revealed[3] = true;
+    (currentGame.board)[3].revealed = true;
     currentGame.currentPlayer = nextPlayer(currentGame.dealer);
-    bettingRound();
+    concession = bettingRound();
     if (concession)
     {
         award();
         return;
     }
-    (currentGame.board).revealed[4] = true;
+    (currentGame.board)[4].revealed = true;
     currentGame.currentPlayer = nextPlayer(currentGame.dealer);
-    bettingRound();
+    concession = bettingRound();
     if (concession)
     {
         award();
         return;
     }
-    for player in currentGame.players
+    playerAt = 0;
+    while (playerAt < (currentGame.players).count)
     {
-        (player.hand[0]).revealed = true;
-        (player.hand[1]).revealed = true;
+        ((currentGame.players)[playerAt].hand[0]).revealed = true;
+        ((currentGame.players)[playerAt].hand[1]).revealed = true;
+        playerAt += 1;
     }
     let handed: [Int] = bestHand(handidates());
-    var playerAt: Int = 0;
+    playerAt = 0;
     while (playerAt < (currentGame.players).count)
     {
         if (!handed.contains(playerAt))

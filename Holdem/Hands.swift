@@ -52,7 +52,7 @@ func displayCard(_ card: Card) -> String
     return "images/card_0.png";
 }
 
-func flush(_ cards: [Card])
+func flush(_ cards: [Card]) -> Bool
 {
     return cards[0].suit == cards[1].suit
            && cards[1].suit == cards[2].suit
@@ -60,7 +60,7 @@ func flush(_ cards: [Card])
            && cards[3].suit == cards[4].suit;
 }
 
-func straight(_ sortedCards: [Card])
+func straight(_ sortedCards: [Card]) -> Bool
 {
     if (sortedCards[3].rank == 5 && sortedCards[4].rank == 14)
     {
@@ -74,22 +74,27 @@ func straight(_ sortedCards: [Card])
            && sortedCards[3].rank + 1 == sortedCards[4].rank;
 }
 
+func highCard(_ leftCard: Card, _ rightCard: Card) -> Bool
+{
+    return leftCard.rank < rightCard.rank;
+}
+
 struct Hand
 {
     let name: String;
     let heldBy: Int;
     let value: Int;
     let ties: [Int];
-    init(_ player: Int, _ cards: [Card])
+    init(_ player: Int, _ five: [Card])
     {
         heldBy = player;
-        cards.sort(by: $0.rank < $1.rank);
-        if (flush(cards) && straight(cards) && cards[0] == 10)
+        let cards: [Card] = five.sorted(by: highCard);
+        if (flush(cards) && straight(cards) && cards[0].rank == 10)
         {
             name = "Royal Flush";
             ties = [];
         }
-        else if (flush(cards) && straight(cards) && cards[4] == 14)
+        else if (flush(cards) && straight(cards) && cards[4].rank == 14)
         {
             name = "Straight Flush";
             ties = [5];
@@ -124,10 +129,10 @@ struct Hand
             name = "Flush";
             ties = [cards[4].rank, cards[3].rank, cards[2].rank, cards[1].rank, cards[0].rank];
         }
-        else if (straight(cards) && cards[0] == 2 && cards[4] == 14)
+        else if (straight(cards) && cards[0].rank == 2 && cards[4].rank == 14)
         {
             name = "Straight";
-            ties = 5;
+            ties = [5];
         }
         else if (straight(cards))
         {
@@ -272,15 +277,15 @@ func handidates() -> [Hand]
     return allHands;
 }
 
-func bestHand(_ hands: [Hand]) -> [Int]
+func bestHand(_ many: [Hand]) -> [Int]
 {
-    hands.sort(by: betterHand);
+    let hands: [Hand] = many.sorted(by: betterHand);
     var highest: [Int] = [];
     for hand: Hand in hands
     {
         if (evalHand(hands[0], hand) == 0)
         {
-            highest.append(hand.player);
+            highest.append(hand.heldBy);
             continue;
         }
         break;
