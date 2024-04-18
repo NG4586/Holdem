@@ -46,15 +46,21 @@ class Engagement: ObservableObject
 
 struct ContentView: View
 {
-    @ObservedObject var interface: Engagement = Engagement.shared;
+    @StateObject var interface: Engagement = Engagement.shared;
     var body: some View
     {
         VStack
         {
             if (interface.screen == 0)
             {
-                Button("New Game", action: newGame);
-                Button("Options", action: openMenu);
+                Button("New Game")
+                {
+                    newGame(interface)
+                }
+                Button("Options")
+                {
+                    openMenu(interface);
+                }
             }
             else if (interface.screen == 1)
             {
@@ -86,7 +92,10 @@ struct ContentView: View
                     }
                     Text("Small blind: " + String(interface.blind / 2));
                 }
-                Button("Confirm", action: closeMenu);
+                Button("Confirm")
+                {
+                    closeMenu(interface);
+                }
             }
             else
             {

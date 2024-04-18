@@ -1,9 +1,7 @@
 // Nathaniel Graves
 import SwiftUI
 
-var controller: Engagement = Engagement.shared;
-
-func storeOptions() -> Void
+func storeOptions(_ controller: Engagement) -> Void
 {
     let involvement = UserDefaults.standard;
     involvement.set(controller.numPlayers, forKey: "numPlayers");
@@ -12,7 +10,7 @@ func storeOptions() -> Void
     involvement.set(controller.blind, forKey: "blind");
 }
 
-func retrieveOptions() -> Void
+func retrieveOptions(_ controller: Engagement) -> Void
 {
     let attainment = UserDefaults.standard;
     let setPlayers = attainment.integer(forKey: "numPlayers");
@@ -37,9 +35,9 @@ func retrieveOptions() -> Void
     }
 }
 
-func newGame() -> Void
+func newGame(_ controller: Engagement) -> Void
 {
-    retrieveOptions();
+    retrieveOptions(controller);
     var gameSettings: GameInfo = GameInfo();
     var startingPlayers: [Player] = [];
     var playerAt: Int = 0;
@@ -59,14 +57,14 @@ func newGame() -> Void
     gameRound();
 }
 
-func openMenu() -> Void
+func openMenu(_ controller: Engagement) -> Void
 {
-    retrieveOptions();
+    retrieveOptions(controller);
     controller.screen = 1;
 }
 
-func closeMenu() -> Void
+func closeMenu(_ controller: Engagement) -> Void
 {
-    storeOptions();
+    storeOptions(controller);
     controller.screen = 0;
 }
