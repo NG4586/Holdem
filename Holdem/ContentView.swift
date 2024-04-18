@@ -24,7 +24,7 @@ class Engagement: ObservableObject
         didSet
         {
             let entry: Int? = Int(buyin_tag);
-            if (entry != nil)
+            if (entry != nil && (entry!) > 0)
             {
                 buyIn = (entry!);
             }
@@ -36,7 +36,7 @@ class Engagement: ObservableObject
         didSet
         {
             let entry: Int? = Int(blind_tag);
-            if (entry != nil)
+            if (entry != nil && (entry!) > 0)
             {
                 blind = (entry!);
             }
