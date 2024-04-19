@@ -3,14 +3,15 @@ import Foundation
 
 struct Player: Identifiable
 {
-    let id: String;
+    let id: UUID = UUID();
+    let name: String;
     var hand: [Card];
     var chips: Int;
     var posted: Int;
     var folded: Bool;
     init(_ playerName: String, _ startingChips: Int)
     {
-        id = playerName;
+        name = playerName;
         hand = [];
         chips = startingChips;
         posted = 0;

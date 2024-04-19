@@ -3,7 +3,7 @@ import SwiftUI
 
 func storeOptions(_ controller: Engagement) -> Void
 {
-    let involvement = UserDefaults.standard;
+    let involvement: UserDefaults = UserDefaults.standard;
     involvement.set(controller.numPlayers, forKey: "numPlayers");
     involvement.set(controller.numRounds, forKey: "numRounds");
     involvement.set(controller.buyIn, forKey: "buyIn");
@@ -12,26 +12,26 @@ func storeOptions(_ controller: Engagement) -> Void
 
 func retrieveOptions(_ controller: Engagement) -> Void
 {
-    let attainment = UserDefaults.standard;
+    let attainment: UserDefaults = UserDefaults.standard;
     let setPlayers = attainment.integer(forKey: "numPlayers");
     let setRounds = attainment.integer(forKey: "numRounds");
     let setBuyin = attainment.integer(forKey: "buyIn");
     let setBlind = attainment.integer(forKey: "blind");
-    if (setPlayers > 0) // 0: user never set this value
+    if (setPlayers > 0)
     {
         controller.numPlayers = setPlayers;
     }
     if (setRounds > 0)
     {
-        controller.numPlayers = setRounds;
+        controller.numRounds = setRounds;
     }
     if (setBuyin > 0)
     {
-        controller.numPlayers = setBuyin;
+        controller.buyIn = setBuyin;
     }
     if (setBlind > 0)
     {
-        controller.numPlayers = setBlind;
+        controller.blind = setBlind;
     }
 }
 

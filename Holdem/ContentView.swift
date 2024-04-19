@@ -99,42 +99,46 @@ struct ContentView: View
             }
             else
             {
-                if (currentGame.board.count == 5)
+                if (currentGame.displayOn)
                 {
                     HStack
                     {
                         if ((currentGame.board)[0].revealed)
                         {
-                            Image(displayCard((currentGame.board)[0]));
-                            if ((currentGame.board)[1].revealed)
-                            {
-                                Image(displayCard((currentGame.board)[1]));
-                                if ((currentGame.board)[2].revealed)
-                                {
-                                    Image(displayCard((currentGame.board)[2]));
-                                    if ((currentGame.board)[3].revealed)
-                                    {
-                                        Image(displayCard((currentGame.board)[3]));
-                                        if ((currentGame.board)[4].revealed)
-                                        {
-                                            Image(displayCard((currentGame.board)[4]));
-                                        }
-                                    }
-                                }
-                            }
+                            displayCard((currentGame.board)[0]);
+                        }
+                        if ((currentGame.board)[1].revealed)
+                        {
+                            displayCard((currentGame.board)[1]);
+                        }
+                        if ((currentGame.board)[2].revealed)
+                        {
+                            displayCard((currentGame.board)[2]);
+                        }
+                        if ((currentGame.board)[3].revealed)
+                        {
+                            displayCard((currentGame.board)[3]);
+                        }
+                        if ((currentGame.board)[4].revealed)
+                        {
+                            displayCard((currentGame.board)[4]);
                         }
                     }
-                    ForEach(currentGame.players)
+                    Divider();
+                    ScrollView
                     {
-                        player in HStack
+                        ForEach(currentGame.players)
                         {
-                            Text(player.id);
-                            if ((player.hand).count == 2)
+                            player in HStack
                             {
-                                Image(displayCard(player.hand[0]));
-                                Image(displayCard(player.hand[1]));
+                                Text(player.name);
+                                if ((player.hand).count == 2)
+                                {
+                                    displayCard(player.hand[0]);
+                                    displayCard(player.hand[1]);
+                                }
+                                Text("Chips: " + String(player.chips));
                             }
-                            Text("Chips: " + String(player.chips));
                         }
                     }
                     Button("Continue", action: gameRound);

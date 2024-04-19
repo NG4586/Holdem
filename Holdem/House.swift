@@ -14,6 +14,7 @@ struct GameInfo
     var bigBlind: Int;
     var dealer: Int;
     var board: [Card];
+    var displayOn: Bool;
     init()
     {
         players = [];
@@ -27,6 +28,7 @@ struct GameInfo
         bigBlind = 0;
         dealer = 0;
         board = [];
+        displayOn = false;
     }
 }
 
@@ -86,9 +88,12 @@ func award() -> Void
         }
         playerAt += 1;
     }
+    print("Total chips in pot:", pot);
     for winner in won
     {
+        print("Awarding", String(pot / won.count), "chips to player ", winner);
         (currentGame.players[winner]).chips += (pot / won.count);
+        pot -= (pot / won.count);
     }
     var tiebreaker: Int = currentGame.dealer;
     while (pot > 0)
@@ -161,6 +166,7 @@ func gameRound() -> Void
                          Card(cardSet[nextCard + 3], false),
                          Card(cardSet[nextCard + 5], false),
                          Card(cardSet[nextCard + 7], false)];
+    currentGame.displayOn = true;
     var concession: Bool;
     concession = bettingRound();
     if (concession)
@@ -209,6 +215,9 @@ func gameRound() -> Void
         {
             currentGame.players[playerAt].folded = true;
         }
+        playerAt += 1;
     }
     award();
+    currentGame.displayOn = false;
+    currentGame.displayOn = true;
 }

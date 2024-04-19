@@ -1,5 +1,5 @@
 // Nathaniel Graves
-import Foundation
+import SwiftUI
 
 let handVals: Dictionary<String, Int> =
 [
@@ -43,13 +43,24 @@ var cardSet: [Int] =
     23, 33, 43, 53, 63, 73, 83, 93, 103, 113, 123, 133, 143
 ];
 
-func displayCard(_ card: Card) -> String
+func displayCard(_ card: Card) -> some View
 {
+    var cardName: String = "card_0";
     if (card.revealed)
     {
-        return "images/card_" + String(card.rank) + String(card.suit) + ".png";
+        cardName = "card_" + String(card.rank) + String(card.suit);
     }
-    return "images/card_0.png";
+    let cardURL: URL? = Bundle.main.url(forResource: cardName, withExtension: ".jpg");
+    var cardImage: NSImage? = NSImage();
+    if (cardURL != nil)
+    {
+        cardImage = NSImage(contentsOf: (cardURL!));
+    }
+    return Image(nsImage: cardImage!)
+      .resizable()
+      .aspectRatio(contentMode: .fill)
+      .frame(width: 90, height: 125, alignment: .center)
+      .clipped();
 }
 
 func flush(_ cards: [Card]) -> Bool
@@ -202,22 +213,22 @@ func evalHand(_ leftHand: Hand, _ rightHand: Hand) -> Int
 {
     if (leftHand.value < rightHand.value)
     {
-        return 1;
+        return -1;
     }
     if (leftHand.value > rightHand.value)
     {
-        return -1;
+        return 1;
     }
     var index: Int = 0;
     while (index < (leftHand.ties).count)
     {
         if (leftHand.ties[index] < rightHand.ties[index])
         {
-            return -1;
+            return 1;
         }
         if (leftHand.ties[index] > rightHand.ties[index])
         {
-            return 1;
+            return -1;
         }
         index += 1;
     }
