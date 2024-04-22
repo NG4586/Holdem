@@ -5,7 +5,7 @@ func storeOptions(_ controller: Engagement) -> Void
 {
     let involvement: UserDefaults = UserDefaults.standard;
     involvement.set(controller.numPlayers, forKey: "numPlayers");
-    involvement.set(controller.numRounds, forKey: "numRounds");
+    //involvement.set(controller.numRounds, forKey: "numRounds");
     involvement.set(controller.buyIn, forKey: "buyIn");
     involvement.set(controller.blind, forKey: "blind");
 }
@@ -14,17 +14,17 @@ func retrieveOptions(_ controller: Engagement) -> Void
 {
     let attainment: UserDefaults = UserDefaults.standard;
     let setPlayers = attainment.integer(forKey: "numPlayers");
-    let setRounds = attainment.integer(forKey: "numRounds");
+    //let setRounds = attainment.integer(forKey: "numRounds");
     let setBuyin = attainment.integer(forKey: "buyIn");
     let setBlind = attainment.integer(forKey: "blind");
     if (setPlayers > 0)
     {
         controller.numPlayers = setPlayers;
     }
-    if (setRounds > 0)
+    /*if (setRounds > 0)
     {
         controller.numRounds = setRounds;
-    }
+    }*/
     if (setBuyin > 0)
     {
         controller.buyIn = setBuyin;
@@ -38,23 +38,7 @@ func retrieveOptions(_ controller: Engagement) -> Void
 func newGame(_ controller: Engagement) -> Void
 {
     retrieveOptions(controller);
-    var gameSettings: GameInfo = GameInfo();
-    var startingPlayers: [Player] = [];
-    var playerAt: Int = 0;
-    while (playerAt < controller.numPlayers)
-    {
-        startingPlayers.append(Player(playerNames[playerAt], controller.buyIn));
-        playerAt += 1;
-    }
-    gameSettings.players = startingPlayers;
-    gameSettings.roundLimit = controller.numRounds;
-    gameSettings.currentRound = 0;
-    gameSettings.smallBlind = controller.blind / 2;
-    gameSettings.bigBlind = controller.blind;
-    gameSettings.dealer = Int.random(in: 0 ..< controller.numPlayers);
-    currentGame = gameSettings;
-    controller.screen = 2;
-    gameRound();
+    controller.table = Table(controller.numPlayers, controller.buyIn, controller.blind, controller);
 }
 
 func openMenu(_ controller: Engagement) -> Void

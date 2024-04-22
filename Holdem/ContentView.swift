@@ -6,7 +6,7 @@ class Engagement: ObservableObject
     static let shared: Engagement = Engagement();
     @Published var screen: Int = 0;
     @Published var numPlayers: Int = 2;
-    @Published var numRounds: Int = 10;
+    /*@Published var numRounds: Int = 10;
     @Published var round_tag: String = ""
     {
         didSet
@@ -17,7 +17,7 @@ class Engagement: ObservableObject
                 numRounds = (entry!);
             }
         }
-    }
+    }*/
     @Published var buyIn: Int = 100;
     @Published var buyin_tag: String = ""
     {
@@ -39,6 +39,55 @@ class Engagement: ObservableObject
             if (entry != nil && (entry!) > 0)
             {
                 blind = (entry!);
+            }
+        }
+    }
+    @Published var table: Table? = nil;
+    @Published var yourTurn: Bool = false;
+}
+
+struct BoardView: View
+{
+    @StateObject var interface: Engagement = Engagement.shared;
+    var body: some View
+    {
+        HStack
+        {
+            ForEach(((interface.table!).board).cards)
+            {
+                card in Image(nsImage: (card.image!))
+                       .resizable()
+                       .aspectRatio(contentMode: .fill)
+                       .frame(width: 90, height: 125, alignment: .center)
+                       .clipped();
+            }
+        }
+    }
+}
+
+struct PlayerView: View
+{
+    @StateObject var interface: Engagement = Engagement.shared;
+    var body: some View
+    {
+        ScrollView
+        {
+            ForEach((interface.table!).players)
+            {
+                player in HStack
+                {
+                    Text(player.name);
+                    ForEach(player.cards)
+                    {
+                        card in Image(nsImage: (card.image!))
+                               .resizable()
+                               .aspectRatio(contentMode: .fill)
+                               .frame(width: 90, height: 125, alignment: .center)
+                               .clipped();
+                    }
+                    Text("Chips: " + String(player.chips));
+                    Text(player.action + " (" + String(player.posted) + ")");
+                }
             }
         }
     }
@@ -78,10 +127,10 @@ struct ContentView: View
                     }
                       .pickerStyle(.radioGroup)
                       .horizontalRadioGroupLayout();
-                    TextField(text: $interface.round_tag)
+                    /*TextField(text: $interface.round_tag)
                     {
                         Text("Number of rounds:");
-                    }
+                    }*/
                     TextField(text: $interface.buyin_tag)
                     {
                         Text("Starting chips per player:");
@@ -99,49 +148,23 @@ struct ContentView: View
             }
             else
             {
-                if (currentGame.displayOn)
+                BoardView();
+                Divider();
+                PlayerView();
+                Divider();
+                if (interface.yourTurn)
                 {
                     HStack
                     {
-                        if ((currentGame.board)[0].revealed)
+                        ForEach(((interface.table!).currentPlayer!).userOptions)
                         {
-                            displayCard((currentGame.board)[0]);
-                        }
-                        if ((currentGame.board)[1].revealed)
-                        {
-                            displayCard((currentGame.board)[1]);
-                        }
-                        if ((currentGame.board)[2].revealed)
-                        {
-                            displayCard((currentGame.board)[2]);
-                        }
-                        if ((currentGame.board)[3].revealed)
-                        {
-                            displayCard((currentGame.board)[3]);
-                        }
-                        if ((currentGame.board)[4].revealed)
-                        {
-                            displayCard((currentGame.board)[4]);
-                        }
-                    }
-                    Divider();
-                    ScrollView
-                    {
-                        ForEach(currentGame.players)
-                        {
-                            player in HStack
-                            {
-                                Text(player.name);
-                                if ((player.hand).count == 2)
+                            option in Button(option.name, action:
                                 {
-                                    displayCard(player.hand[0]);
-                                    displayCard(player.hand[1]);
+                                    (interface.table!).userAction(option);
                                 }
-                                Text("Chips: " + String(player.chips));
-                            }
+                            );
                         }
                     }
-                    Button("Continue", action: gameRound);
                 }
             }
         }
