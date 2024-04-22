@@ -64,13 +64,10 @@
 		A85A83A62BD19E8B00735385 /* card_71.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A85A83712BD19E8B00735385 /* card_71.jpg */; };
 		A85A83A72BD19E8B00735385 /* card_91.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A85A83722BD19E8B00735385 /* card_91.jpg */; };
 		A85A83A82BD19E8B00735385 /* card_142.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A85A83732BD19E8B00735385 /* card_142.jpg */; };
-		A85A83AA2BD6F6EE00735385 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83A92BD6F6EE00735385 /* Hand.swift */; };
-		A85A83AC2BD6F6FA00735385 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83AB2BD6F6FA00735385 /* Table.swift */; };
-		A85A83AE2BD6F70100735385 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83AD2BD6F70100735385 /* Player.swift */; };
-		A85A83B02BD6F71800735385 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83AF2BD6F71800735385 /* Deck.swift */; };
-		A85A83B32BD6F72700735385 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83B12BD6F72700735385 /* Card.swift */; };
-		A85A83B42BD6F72700735385 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85A83B22BD6F72700735385 /* Board.swift */; };
 		A86F1A122BD072EA00DAD778 /* Night.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A112BD072EA00DAD778 /* Night.swift */; };
+		A86F1A142BD072FC00DAD778 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A132BD072FC00DAD778 /* House.swift */; };
+		A86F1A162BD0730800DAD778 /* Hands.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A152BD0730800DAD778 /* Hands.swift */; };
+		A86F1A182BD0733C00DAD778 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A172BD0733C00DAD778 /* Players.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,13 +130,10 @@
 		A85A83712BD19E8B00735385 /* card_71.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = card_71.jpg; sourceTree = "<group>"; };
 		A85A83722BD19E8B00735385 /* card_91.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = card_91.jpg; sourceTree = "<group>"; };
 		A85A83732BD19E8B00735385 /* card_142.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = card_142.jpg; sourceTree = "<group>"; };
-		A85A83A92BD6F6EE00735385 /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
-		A85A83AB2BD6F6FA00735385 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
-		A85A83AD2BD6F70100735385 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		A85A83AF2BD6F71800735385 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
-		A85A83B12BD6F72700735385 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		A85A83B22BD6F72700735385 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		A86F1A112BD072EA00DAD778 /* Night.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Night.swift; sourceTree = "<group>"; };
+		A86F1A132BD072FC00DAD778 /* House.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = House.swift; sourceTree = "<group>"; };
+		A86F1A152BD0730800DAD778 /* Hands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hands.swift; sourceTree = "<group>"; };
+		A86F1A172BD0733C00DAD778 /* Players.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,12 +169,9 @@
 				A833CAC32BB776B0009CA344 /* HoldemApp.swift */,
 				A833CAC52BB776B0009CA344 /* ContentView.swift */,
 				A86F1A112BD072EA00DAD778 /* Night.swift */,
-				A85A83A92BD6F6EE00735385 /* Hand.swift */,
-				A85A83AB2BD6F6FA00735385 /* Table.swift */,
-				A85A83AD2BD6F70100735385 /* Player.swift */,
-				A85A83B22BD6F72700735385 /* Board.swift */,
-				A85A83AF2BD6F71800735385 /* Deck.swift */,
-				A85A83B12BD6F72700735385 /* Card.swift */,
+				A86F1A132BD072FC00DAD778 /* House.swift */,
+				A86F1A152BD0730800DAD778 /* Hands.swift */,
+				A86F1A172BD0733C00DAD778 /* Players.swift */,
 				A86F1A4E2BD0734700DAD778 /* _images */,
 				A833CAC72BB776B1009CA344 /* Assets.xcassets */,
 				A833CACC2BB776B1009CA344 /* Holdem.entitlements */,
@@ -380,15 +371,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A85A83B02BD6F71800735385 /* Deck.swift in Sources */,
-				A85A83AA2BD6F6EE00735385 /* Hand.swift in Sources */,
-				A85A83AC2BD6F6FA00735385 /* Table.swift in Sources */,
+				A86F1A182BD0733C00DAD778 /* Players.swift in Sources */,
 				A833CAC62BB776B0009CA344 /* ContentView.swift in Sources */,
 				A86F1A122BD072EA00DAD778 /* Night.swift in Sources */,
-				A85A83AE2BD6F70100735385 /* Player.swift in Sources */,
+				A86F1A142BD072FC00DAD778 /* House.swift in Sources */,
+				A86F1A162BD0730800DAD778 /* Hands.swift in Sources */,
 				A833CAC42BB776B0009CA344 /* HoldemApp.swift in Sources */,
-				A85A83B32BD6F72700735385 /* Card.swift in Sources */,
-				A85A83B42BD6F72700735385 /* Board.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

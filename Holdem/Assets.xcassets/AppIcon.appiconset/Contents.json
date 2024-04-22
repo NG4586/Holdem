@@ -1,61 +1,51 @@
 {
   "images" : [
     {
-      "filename" : "Screenshot 2024-04-22 at 3.24.19 PM.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.24.46 PM.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.25.02 PM.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.15.31 PM.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.16.35 PM.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.26.24 PM.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.10.13 PM.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.26.58 PM.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.28.11 PM.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "Screenshot 2024-04-22 at 3.30.09 PM.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

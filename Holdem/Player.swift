@@ -60,7 +60,7 @@ class Player: Identifiable
     var posted: Int;
     func post(_ amount: Int)
     {
-        if (amount > chips)
+        if (amount < chips)
         {
             posted += chips;
             chips = 0;

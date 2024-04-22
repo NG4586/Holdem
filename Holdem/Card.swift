@@ -6,8 +6,8 @@ struct Card: Identifiable
     let id: UUID = UUID();
     let rank: Int;
     let suit: Int;
-    var image: NSImage? = NSImage();
-    var file: URL? = Bundle.main.url(forResource: "card_0", withExtension: ".jpg")
+    var image: NSImage?;
+    var file: URL?
     {
         didSet
         {
@@ -25,24 +25,14 @@ struct Card: Identifiable
     {
         didSet
         {
-            if (name != "pending")
-            {
-                file = Bundle.main.url(forResource: name, withExtension: ".jpg");
-            }
+            file = Bundle.main.url(forResource: name, withExtension: ".jpg");
         }
     }
     var revealed: Bool
     {
         didSet
         {
-            if (revealed)
-            {
-                name = "card_" + String(rank) + String(suit);
-            }
-            else
-            {
-                name = "card_0";
-            }
+            name = "card_" + String(rank) + String(suit);
         }
     }
     mutating func reveal() -> Void
@@ -51,10 +41,18 @@ struct Card: Identifiable
     }
     init(_ cardID: Int, _ faceUp: Bool)
     {
-        name = "pending";
         rank = cardID / 10;
         suit = cardID % 10;
-        revealed = faceUp;
+        if (faceUp)
+        {
+            name = "card_" + String(rank) + String(suit);
+            revealed = true;
+        }
+        else
+        {
+            name = "card_0";
+            revealed = false;
+        }
     }
 }
 

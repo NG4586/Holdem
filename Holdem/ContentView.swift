@@ -115,8 +115,7 @@ struct ContentView: View
             {
                 Form
                 {
-                    Picker(selection: $interface.numPlayers,
-                           label: Text("Number of players:"))
+                    Picker(selection: $interface.numPlayers, label: Text("Number of players:"))
                     {
                         Text("2").tag(2);
                         Text("3").tag(3);
