@@ -15,6 +15,7 @@ class Table
     {
         didSet
         {
+            print("new current player");
             if (currentPlayer != nil)
             {
                 if ((currentPlayer!).action != "fold" && (currentPlayer!).action != "out")
@@ -239,6 +240,9 @@ class Table
             players[dealer].post(minBet / 2);
             players[dealTo].post(minBet);
         }
+        print("should be setting currentPlayer here");
+        currentPlayer = players[playerIndex];
+        interface.screen = 2;
     }
 }
 
