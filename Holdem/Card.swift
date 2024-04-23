@@ -32,7 +32,14 @@ struct Card: Identifiable
     {
         didSet
         {
-            name = "card_" + String(rank) + String(suit);
+            if (revealed)
+            {
+                name = "card_" + String(rank) + String(suit);
+            }
+            else
+            {
+                name = "card_0";
+            }
         }
     }
     mutating func reveal() -> Void
@@ -43,16 +50,17 @@ struct Card: Identifiable
     {
         rank = cardID / 10;
         suit = cardID % 10;
-        if (faceUp)
+        revealed = faceUp;
+        if (revealed)
         {
             name = "card_" + String(rank) + String(suit);
-            revealed = true;
         }
         else
         {
             name = "card_0";
-            revealed = false;
         }
+        file = Bundle.main.url(forResource: name, withExtension: ".jpg");
+        image = NSImage(contentsOf: file!);
     }
 }
 

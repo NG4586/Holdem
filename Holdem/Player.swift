@@ -58,17 +58,22 @@ class Player: Identifiable
     }
     var chips: Int;
     var posted: Int;
-    func post(_ amount: Int)
+    func post(_ amount: Int) -> Void
     {
-        if (amount < chips)
+        if (amount > dataSource.currentBet)
+        {
+            dataSource.currentBet = amount;
+        }
+        let deficit: Int = amount - posted;
+        if (deficit > chips)
         {
             posted += chips;
             chips = 0;
         }
         else
         {
-            posted += amount;
-            chips -= amount;
+            posted += deficit;
+            chips -= deficit;
         }
     }
     var dataSource: PlayerDataSource;
@@ -122,10 +127,13 @@ class Player: Identifiable
                         post(dataSource.currentBet);
                     }
                     action = choice;
+                    print(name, "has chosen to", action);
+                    dataSource.turnComplete();
                 }
             }
             else if (action != "ready" && action != "out")
             {
+                print(name, "has chosen to", action);
                 dataSource.turnComplete();
             }
         }

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A800EC802BD7393700DBEABF /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC7E2BD7393700DBEABF /* Card.swift */; };
+		A800EC812BD7393700DBEABF /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC7F2BD7393700DBEABF /* Board.swift */; };
+		A800EC842BD7393E00DBEABF /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC822BD7393E00DBEABF /* Deck.swift */; };
+		A800EC852BD7393E00DBEABF /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC832BD7393E00DBEABF /* Hand.swift */; };
+		A800EC872BD7394E00DBEABF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC862BD7394E00DBEABF /* Player.swift */; };
+		A800EC892BD7395300DBEABF /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = A800EC882BD7395300DBEABF /* Table.swift */; };
 		A833CAC42BB776B0009CA344 /* HoldemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CAC32BB776B0009CA344 /* HoldemApp.swift */; };
 		A833CAC62BB776B0009CA344 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A833CAC52BB776B0009CA344 /* ContentView.swift */; };
 		A833CAC82BB776B1009CA344 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A833CAC72BB776B1009CA344 /* Assets.xcassets */; };
@@ -65,12 +71,15 @@
 		A85A83A72BD19E8B00735385 /* card_91.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A85A83722BD19E8B00735385 /* card_91.jpg */; };
 		A85A83A82BD19E8B00735385 /* card_142.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A85A83732BD19E8B00735385 /* card_142.jpg */; };
 		A86F1A122BD072EA00DAD778 /* Night.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A112BD072EA00DAD778 /* Night.swift */; };
-		A86F1A142BD072FC00DAD778 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A132BD072FC00DAD778 /* House.swift */; };
-		A86F1A162BD0730800DAD778 /* Hands.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A152BD0730800DAD778 /* Hands.swift */; };
-		A86F1A182BD0733C00DAD778 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F1A172BD0733C00DAD778 /* Players.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A800EC7E2BD7393700DBEABF /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		A800EC7F2BD7393700DBEABF /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		A800EC822BD7393E00DBEABF /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		A800EC832BD7393E00DBEABF /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		A800EC862BD7394E00DBEABF /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		A800EC882BD7395300DBEABF /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		A833CAC02BB776B0009CA344 /* Holdem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Holdem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A833CAC32BB776B0009CA344 /* HoldemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldemApp.swift; sourceTree = "<group>"; };
 		A833CAC52BB776B0009CA344 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -131,9 +140,6 @@
 		A85A83722BD19E8B00735385 /* card_91.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = card_91.jpg; sourceTree = "<group>"; };
 		A85A83732BD19E8B00735385 /* card_142.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = card_142.jpg; sourceTree = "<group>"; };
 		A86F1A112BD072EA00DAD778 /* Night.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Night.swift; sourceTree = "<group>"; };
-		A86F1A132BD072FC00DAD778 /* House.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = House.swift; sourceTree = "<group>"; };
-		A86F1A152BD0730800DAD778 /* Hands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hands.swift; sourceTree = "<group>"; };
-		A86F1A172BD0733C00DAD778 /* Players.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,9 +175,12 @@
 				A833CAC32BB776B0009CA344 /* HoldemApp.swift */,
 				A833CAC52BB776B0009CA344 /* ContentView.swift */,
 				A86F1A112BD072EA00DAD778 /* Night.swift */,
-				A86F1A132BD072FC00DAD778 /* House.swift */,
-				A86F1A152BD0730800DAD778 /* Hands.swift */,
-				A86F1A172BD0733C00DAD778 /* Players.swift */,
+				A800EC882BD7395300DBEABF /* Table.swift */,
+				A800EC862BD7394E00DBEABF /* Player.swift */,
+				A800EC7F2BD7393700DBEABF /* Board.swift */,
+				A800EC822BD7393E00DBEABF /* Deck.swift */,
+				A800EC832BD7393E00DBEABF /* Hand.swift */,
+				A800EC7E2BD7393700DBEABF /* Card.swift */,
 				A86F1A4E2BD0734700DAD778 /* _images */,
 				A833CAC72BB776B1009CA344 /* Assets.xcassets */,
 				A833CACC2BB776B1009CA344 /* Holdem.entitlements */,
@@ -371,12 +380,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A86F1A182BD0733C00DAD778 /* Players.swift in Sources */,
+				A800EC842BD7393E00DBEABF /* Deck.swift in Sources */,
 				A833CAC62BB776B0009CA344 /* ContentView.swift in Sources */,
 				A86F1A122BD072EA00DAD778 /* Night.swift in Sources */,
-				A86F1A142BD072FC00DAD778 /* House.swift in Sources */,
-				A86F1A162BD0730800DAD778 /* Hands.swift in Sources */,
+				A800EC892BD7395300DBEABF /* Table.swift in Sources */,
+				A800EC812BD7393700DBEABF /* Board.swift in Sources */,
+				A800EC872BD7394E00DBEABF /* Player.swift in Sources */,
+				A800EC852BD7393E00DBEABF /* Hand.swift in Sources */,
 				A833CAC42BB776B0009CA344 /* HoldemApp.swift in Sources */,
+				A800EC802BD7393700DBEABF /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

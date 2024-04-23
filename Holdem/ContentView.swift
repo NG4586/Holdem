@@ -44,6 +44,7 @@ class Engagement: ObservableObject
     }
     @Published var table: Table? = nil;
     @Published var yourTurn: Bool = false;
+    @Published var roundEnd: Bool = false;
 }
 
 struct BoardView: View
@@ -165,6 +166,10 @@ struct ContentView: View
                             );
                         }
                     }
+                }
+                else if (interface.roundEnd)
+                {
+                    Button("Next Round", action: (interface.table!).roundComplete);
                 }
             }
         }

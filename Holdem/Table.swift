@@ -19,31 +19,47 @@ class Table
             {
                 if ((currentPlayer!).action != "fold" && (currentPlayer!).action != "out")
                 {
-                    (currentPlayer!).action = "pending";
                     controller.yourTurn = (currentPlayer!).user;
+                    print("it is", (currentPlayer!).name, "'s turn");
+                    (currentPlayer!).action = "pending";
                 }
                 else
                 {
+                    print("player", (currentPlayer!).name, "is skipped");
                     turnComplete();
                 }
             }
         }
+    }
+    func setCurrentPlayer(_ player: Player) -> Void
+    {
+        currentPlayer = player;
     }
     var playerIndex: Int;
     func userAction(_ input: Option) -> Void
     {
         if (currentPlayer != nil)
         {
+            controller.yourTurn = false;
+            if (input.name == "call")
+            {
+                (currentPlayer!).post(currentBet);
+            }
+            else if (input.name == "raise")
+            {
+                (currentPlayer!).post(raiseSteps[0]);
+            }
             (currentPlayer!).action = input.name;
         }
     }
-    var roundState: String = "setup";
+    var roundState: String = "pre-flop";
     func unraised() -> Bool
     {
         var playerAt: Int = 0;
         while (playerAt < players.count)
         {
-            if (playerAt != playerIndex && players[playerAt].action == "raise")
+            if (playerAt != playerIndex && (players[playerAt].action == "raise"
+                                            || players[playerAt].action == "ready"))
             {
                 return false;
             }
@@ -64,6 +80,13 @@ class Table
         for n: Int in 0 ..< raiseSteps.count
         {
             raiseSteps[n] += currentBet;
+        }
+        for player: Player in players
+        {
+            if (player.action != "fold" && player.action != "out")
+            {
+                player.action = "ready";
+            }
         }
         playerIndex = (dealer + 1) % players.count;
         currentPlayer = players[playerIndex];
@@ -108,22 +131,25 @@ class Table
                 if (roundState == "pre-flop")
                 {
                     roundState = "flop"
+                    print("the round has advanced to the flop");
                     board.flop(deck);
                     advanceRound();
                 }
                 else if (roundState == "flop")
                 {
                     roundState = "turn"
+                    print("the round has advanced to the turn");
                     board.turn(deck);
                     advanceRound();
                 }
                 else if (roundState == "turn")
                 {
                     roundState = "river"
+                    print("the round has advanced to the river");
                     board.river(deck);
                     advanceRound();
                 }
-                else
+                else if (roundState == "river")
                 {
                     var handSet: [Hand] = [];
                     var heldBy: Dictionary<Player, Hand> = [:];
@@ -150,12 +176,12 @@ class Table
                         }
                     }
                     award(won, pot);
-                    roundComplete();
+                    controller.roundEnd = true;
                 }
             }
             else
             {
-                roundComplete();
+                controller.roundEnd = true;
             }
         }
         else
@@ -169,6 +195,7 @@ class Table
         var stillIn: [Player] = [];
         for player: Player in players
         {
+            (player.cards).removeAll();
             if (player.chips > 0)
             {
                 player.action = "ready";
@@ -179,8 +206,10 @@ class Table
                 player.action = "out";
             }
         }
+        board.reset();
         if (stillIn.count >= 2)
         {
+            roundState = "pre-flop";
             dealer = (dealer + 1) % players.count;
             while (!stillIn.contains(players[dealer]))
             {
@@ -239,6 +268,8 @@ class Table
             players[dealer].post(minBet / 2);
             players[dealTo].post(minBet);
         }
+        setCurrentPlayer(players[playerIndex]);
+        interface.screen = 2;
     }
 }
 
