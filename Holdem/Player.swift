@@ -127,13 +127,11 @@ class Player: Identifiable
                         post(dataSource.currentBet);
                     }
                     action = choice;
-                    print(name, "has chosen to", action);
                     dataSource.turnComplete();
                 }
             }
             else if (action != "ready" && action != "out")
             {
-                print(name, "has chosen to", action);
                 dataSource.turnComplete();
             }
         }

@@ -20,12 +20,10 @@ class Table
                 if ((currentPlayer!).action != "fold" && (currentPlayer!).action != "out")
                 {
                     controller.yourTurn = (currentPlayer!).user;
-                    print("it is", (currentPlayer!).name, "'s turn");
                     (currentPlayer!).action = "pending";
                 }
                 else
                 {
-                    print("player", (currentPlayer!).name, "is skipped");
                     turnComplete();
                 }
             }
@@ -131,21 +129,18 @@ class Table
                 if (roundState == "pre-flop")
                 {
                     roundState = "flop"
-                    print("the round has advanced to the flop");
                     board.flop(deck);
                     advanceRound();
                 }
                 else if (roundState == "flop")
                 {
                     roundState = "turn"
-                    print("the round has advanced to the turn");
                     board.turn(deck);
                     advanceRound();
                 }
                 else if (roundState == "turn")
                 {
                     roundState = "river"
-                    print("the round has advanced to the river");
                     board.river(deck);
                     advanceRound();
                 }
@@ -207,6 +202,7 @@ class Table
             }
         }
         board.reset();
+        deck.gather();
         if (stillIn.count >= 2)
         {
             roundState = "pre-flop";
@@ -245,10 +241,10 @@ class Table
         {
             playerIndex = dealer;
         }
-        players = [Player(NSUserName(), buyIn, self, true)];
+        players = [Player(" You ", buyIn, self, true)];
         while (players.count < numPlayers)
         {
-            players.append(Player("CPU" + String(players.count),
+            players.append(Player("CPU-" + String(players.count),
                                   buyIn, self, false));
         }
         var dealTo: Int = (dealer + 1) % numPlayers;

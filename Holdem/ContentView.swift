@@ -47,6 +47,18 @@ class Engagement: ObservableObject
     @Published var roundEnd: Bool = false;
 }
 
+/*extension HorizontalAlignment
+{
+    private struct CardAlignment: AlignmentID
+    {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat
+        {
+            context[HorizontalAlignment.center];
+        }
+    }
+    static let cardAlign = HorizontalAlignment(CardAlignment.self);
+}*/
+
 struct BoardView: View
 {
     @StateObject var interface: Engagement = Engagement.shared;
@@ -59,8 +71,7 @@ struct BoardView: View
                 card in Image(nsImage: (card.image!))
                        .resizable()
                        .aspectRatio(contentMode: .fill)
-                       .frame(width: 90, height: 125, alignment: .center)
-                       .clipped();
+                       .frame(width: 96, height: 136, alignment: .center);
             }
         }
     }
@@ -69,6 +80,9 @@ struct BoardView: View
 struct PlayerView: View
 {
     @StateObject var interface: Engagement = Engagement.shared;
+    let descFont: Font = Font
+                         .system(size: 14)
+                         .monospaced();
     var body: some View
     {
         ScrollView
@@ -77,17 +91,38 @@ struct PlayerView: View
             {
                 player in HStack
                 {
-                    Text(player.name);
+                    Text(player.name).font(descFont)
                     ForEach(player.cards)
                     {
                         card in Image(nsImage: (card.image!))
                                .resizable()
                                .aspectRatio(contentMode: .fill)
-                               .frame(width: 90, height: 125, alignment: .center)
-                               .clipped();
+                               .frame(width: 96, height: 136, alignment: .center);
                     }
-                    Text("Chips: " + String(player.chips));
-                    Text(player.action + " (" + String(player.posted) + ")");
+                    if (player.chips < 10)
+                    {
+                        Text("Chips:   " + String(player.chips)).font(descFont);
+                    }
+                    else if (player.chips < 100)
+                    {
+                        Text("Chips:  " + String(player.chips)).font(descFont);
+                    }
+                    else
+                    {
+                        Text("Chips: " + String(player.chips)).font(descFont);
+                    }
+                    if (player.posted < 10)
+                    {
+                        Text("Posted:   " + String(player.posted) + "  ").font(descFont);
+                    }
+                    else if (player.posted < 100)
+                    {
+                        Text("Posted:  " + String(player.posted) + "  ").font(descFont);
+                    }
+                    else
+                    {
+                        Text("Posted: " + String(player.posted) + "  ").font(descFont);
+                    }
                 }
             }
         }
