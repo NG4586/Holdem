@@ -6,18 +6,6 @@ class Engagement: ObservableObject
     static let shared: Engagement = Engagement();
     @Published var screen: Int = 0;
     @Published var numPlayers: Int = 2;
-    /*@Published var numRounds: Int = 10;
-    @Published var round_tag: String = ""
-    {
-        didSet
-        {
-            let entry: Int? = Int(round_tag);
-            if (entry != nil)
-            {
-                numRounds = (entry!);
-            }
-        }
-    }*/
     @Published var buyIn: Int = 100;
     @Published var buyin_tag: String = ""
     {
@@ -46,18 +34,6 @@ class Engagement: ObservableObject
     @Published var yourTurn: Bool = false;
     @Published var roundEnd: Bool = false;
 }
-
-/*extension HorizontalAlignment
-{
-    private struct CardAlignment: AlignmentID
-    {
-        static func defaultValue(in context: ViewDimensions) -> CGFloat
-        {
-            context[HorizontalAlignment.center];
-        }
-    }
-    static let cardAlign = HorizontalAlignment(CardAlignment.self);
-}*/
 
 struct BoardView: View
 {
@@ -132,82 +108,87 @@ struct PlayerView: View
 struct ContentView: View
 {
     @StateObject var interface: Engagement = Engagement.shared;
+    let tableSurface: LinearGradient = LinearGradient(
+        colors: [Color.green, Color.purple],
+        startPoint: .top,
+        endPoint: .bottom
+    );
     var body: some View
     {
-        VStack
+        ZStack
         {
-            if (interface.screen == 0)
+            tableSurface;
+            VStack
             {
-                Button("New Game")
+                if (interface.screen == 0)
                 {
-                    newGame(interface)
-                }
-                Button("Options")
-                {
-                    openMenu(interface);
-                }
-            }
-            else if (interface.screen == 1)
-            {
-                Form
-                {
-                    Picker(selection: $interface.numPlayers, label: Text("Number of players:"))
+                    Button("New Game")
                     {
-                        Text("2").tag(2);
-                        Text("3").tag(3);
-                        Text("4").tag(4);
-                        Text("5").tag(5);
-                        Text("6").tag(6);
-                        Text("7").tag(7);
-                        Text("8").tag(8);
+                        newGame(interface)
                     }
-                      .pickerStyle(.radioGroup)
-                      .horizontalRadioGroupLayout();
-                    /*TextField(text: $interface.round_tag)
+                    Button("Options")
                     {
-                        Text("Number of rounds:");
-                    }*/
-                    TextField(text: $interface.buyin_tag)
-                    {
-                        Text("Starting chips per player:");
+                        openMenu(interface);
                     }
-                    TextField(text: $interface.blind_tag)
-                    {
-                        Text("Big blind:");
-                    }
-                    Text("Small blind: " + String(interface.blind / 2));
                 }
-                Button("Confirm")
+                else if (interface.screen == 1)
                 {
-                    closeMenu(interface);
-                }
-            }
-            else
-            {
-                BoardView();
-                Divider();
-                PlayerView();
-                Divider();
-                if (interface.yourTurn)
-                {
-                    HStack
+                    Form
                     {
-                        ForEach(((interface.table!).currentPlayer!).userOptions)
+                        Picker(selection: $interface.numPlayers, label: Text("Number of players:"))
                         {
-                            option in Button(option.name, action:
-                                {
-                                    (interface.table!).userAction(option);
-                                }
-                            );
+                            Text("2").tag(2);
+                            Text("3").tag(3);
+                            Text("4").tag(4);
+                            Text("5").tag(5);
+                            Text("6").tag(6);
+                            Text("7").tag(7);
+                            Text("8").tag(8);
+                        }
+                          .pickerStyle(.radioGroup)
+                          .horizontalRadioGroupLayout();
+                        TextField(text: $interface.buyin_tag)
+                        {
+                            Text("Starting chips per player:");
+                        }
+                        TextField(text: $interface.blind_tag)
+                        {
+                            Text("Big blind:");
+                        }
+                        Text("Small blind: " + String(interface.blind / 2));
+                    }
+                    Button("Confirm")
+                    {
+                        closeMenu(interface);
+                    }
+                }
+                else
+                {
+                    BoardView();
+                    Divider();
+                    PlayerView();
+                    Divider();
+                    if (interface.yourTurn)
+                    {
+                        HStack
+                        {
+                            ForEach(((interface.table!).currentPlayer!).userOptions)
+                            {
+                                option in Button(option.name, action:
+                                    {
+                                        (interface.table!).userAction(option);
+                                    }
+                                );
+                            }
                         }
                     }
-                }
-                else if (interface.roundEnd)
-                {
-                    Button("Next Round", action: (interface.table!).roundComplete);
+                    else if (interface.roundEnd)
+                    {
+                        Button("Next Round", action: (interface.table!).roundComplete);
+                    }
                 }
             }
+            .padding();
         }
-        .padding();
     }
 }

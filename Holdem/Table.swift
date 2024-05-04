@@ -56,8 +56,7 @@ class Table
         var playerAt: Int = 0;
         while (playerAt < players.count)
         {
-            if (playerAt != playerIndex && (players[playerAt].action == "raise"
-                                            || players[playerAt].action == "ready"))
+            if (playerAt != playerIndex && players[playerAt].action == "ready")
             {
                 return false;
             }
@@ -95,7 +94,6 @@ class Table
         {
             winner.chips += (amount / winners.count);
         }
-        // todo: split remainder
     }
     func defaultWin() -> Bool
     {

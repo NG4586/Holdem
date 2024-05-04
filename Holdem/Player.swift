@@ -79,7 +79,7 @@ class Player: Identifiable
     var dataSource: PlayerDataSource;
     let user: Bool;
     var userOptions: [Option];
-    func decision(_ options: [Option]) -> String // todo: make smarter
+    func decision(_ options: [Option]) -> String
     {
         for option: Option in options
         {
